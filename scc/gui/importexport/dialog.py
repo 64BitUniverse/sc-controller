@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Import / Export Dialog
 """
@@ -36,8 +36,9 @@ class Dialog(Editor, ComboSetter, Export, ImportVdf, ImportSccprofile):
 		or None if type is not supported.
 		"""
 		try:
-			f = file(filename, 'rb').read(1024)
-		except Exception, e:
+			with open(filename, 'rb') as fl:
+				f = fl.read(1024)
+		except Exception as e:
 			# File not readable
 			log.error(traceback.format_exc())
 			return None

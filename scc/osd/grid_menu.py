@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Grid OSD Menu
 
@@ -52,7 +52,7 @@ class GridMenu(Menu):
 		if x != 0:
 			self.next_item(-x)
 		elif y != 0:
-			for i in xrange(0, self.ipr):
+			for i in range(0, self.ipr):
 				self.next_item(y)
 	
 	

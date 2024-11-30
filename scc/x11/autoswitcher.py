@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Autoswitch Daemon
 
@@ -52,7 +52,7 @@ class AutoSwitcher(object):
 					astr = astr["action"]
 				action = parser.restart(astr).parse()
 				conds[Condition.parse(c['condition'])] = action
-			except Exception, e:
+			except Exception as e:
 				# Failure here is not fatal
 				log.error("Failed to parse autoswitcher condition '%s'", c)
 				log.error(e)
@@ -132,11 +132,10 @@ class AutoSwitcher(object):
 		log.debug("Window switched: %s", w)
 		pars = X.get_window_title(self.dpy, w), X.get_window_class(self.dpy, w)
 
-                if pars[0] is None:
-                        pars = ("",pars[1])
-
-                if pars[1] is None:
-                        pars = (pars[0], ("",""))
+		if pars[0] is None:
+			pars = ("",pars[1])
+		if pars[1] is None:
+			pars = (pars[0], ("",""))
 
 		for c in self.conds:
 			if c.matches(*pars):
@@ -218,7 +217,7 @@ class Condition(object):
 		self.exact_title = exact_title
 		self.title = title
 		self.regexp = regexp
-		if type(self.regexp) in (str, unicode):
+		if type(self.regexp) in str:
 			self.regexp = re.compile(self.regexp)
 		self.wm_class = wm_class
 		self.empty = not ( title or title or regexp or wm_class )

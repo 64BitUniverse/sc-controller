@@ -1,11 +1,11 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC Controller - ActionParser
 
 Parses action(s) expressed as string or in dict loaded from json file into
 one or more Action instances.
 """
-from __future__ import unicode_literals
+#from __future__ import unicode_literals
 from tokenize import generate_tokens, TokenError
 from collections import namedtuple
 
@@ -253,9 +253,9 @@ class ActionParser(object):
 	def _create_action(self, cls, *pars):
 		try:
 			return cls(*pars)
-		except ValueError, e:
-			raise ParseError(unicode(e))
-		except TypeError, e:
+		except ValueError as e:
+			raise ParseError(str(e))
+		except TypeError as e:
 			print >>sys.stderr, e
 			raise ParseError("Invalid number of parameters for '%s'" % (cls.COMMAND))
 	
@@ -367,5 +367,5 @@ class TalkingActionParser(ActionParser):
 		"""
 		try:
 			return ActionParser.parse(self)
-		except ParseError, e:
+		except ParseError as e:
 			print >>sys.stderr, "Warning: Failed to parse '%s':" % (self.string,), e

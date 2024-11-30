@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Autoswitch Daemon
 
@@ -7,6 +7,7 @@ Observes active window and commands scc-daemon to change profiles as needed.
 from __future__ import unicode_literals
 
 from scc.x11.autoswitcher import AutoSwitcher
+import logging as log
 import sys, os
 
 if __name__ == "__main__":

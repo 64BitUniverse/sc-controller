@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - OSD Launcher
 
@@ -351,9 +351,11 @@ class Box(object):
 					# Fix: here stuff goes from weird to awfull, as rsvg
 					# (library that gnome uses to render SVGs) can't render
 					# linked images. Embeding is used instead.
-					image = 'data:image/svg+xml;base64,%s' % (
-						base64.b64encode(file(image, "rb").read())
-					)
+					with open(image, "rb") as f:
+						image = 'data:image/svg+xml;base64,%s' % (
+							base64.b64encode(f.read())
+						)
+					f.close
 					# Another problem: rsvg will NOT draw image unless href
 					# tag uses namespace. No idea why is that, but I spent
 					# 3 hours finding this, so I'm willing to murder.

@@ -1,10 +1,10 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Config
 
 Handles loading, storing and querying config file
 """
-from __future__ import unicode_literals
+#from __future__ import unicode_literals
 
 from scc.paths import get_config_path
 from scc.profile import Encoder
@@ -136,7 +136,7 @@ class Config(object):
 		""" (Re)loads configuration. Works as load(), but handles exceptions """
 		try:
 			self.load()
-		except Exception, e:
+		except Exception as e:
 			log.warning("Failed to load configuration; Creating new one.")
 			log.warning("Reason: %s", (e,))
 			self.create()
@@ -222,7 +222,9 @@ class Config(object):
 		# Save
 		data = { k:self.values[k] for k in self.values }
 		jstr = Encoder(sort_keys=True, indent=4).encode(data)
-		file(self.filename, "w").write(jstr)
+		with open(self.filename, "w") as f:
+			f.write(jstr)
+		f.close
 		log.debug("Configuration saved")
 	
 	

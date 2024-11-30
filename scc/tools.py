@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - tools
 
@@ -12,7 +12,7 @@ from scc.paths import get_profiles_path, get_default_profiles_path
 from scc.paths import get_menus_path, get_default_menus_path
 from scc.paths import get_button_images_path
 from math import pi as PI, sin, cos, atan2, sqrt
-import os, sys, ctypes, imp, shlex, gettext, logging
+import os, sys, ctypes, importlib.machinery, shlex, gettext, logging
 
 HAVE_POSIX1E = False
 try:
@@ -50,10 +50,10 @@ def init_logging(prefix="", suffix=""):
 	old_log = logging.Logger._log
 	def _log(self, level, msg, args, exc_info=None, extra=None):
 		args = tuple([
-			(str(c).decode("utf-8") if type(c) is str else c)
+			(str(c) if type(c) is str else c)
 			for c in args
 		])
-		msg = msg if type(msg) is unicode else str(msg).decode("utf-8")
+		msg = msg if type(msg) is str else str(msg)
 		old_log(self, level, msg, args, exc_info, extra)
 	logging.Logger._log = _log
 
@@ -123,7 +123,7 @@ def nameof(e):
 
 def shjoin(lst):
 	""" Joins list into shell-escaped, utf-8 encoded string """
-	s = [ unicode(x).encode("utf-8") for x in lst ]
+	s = [ str(x) for x in lst ]
 	#   - escape quotes
 	s = [ x.encode('string_escape') if (b'"' in x or b"'" in x) else x for x in s ]
 	#   - quote strings with spaces
@@ -314,7 +314,7 @@ def find_binary(name):
 	# Not found, return name back and hope for miracle
 	return name
 
-
+'''
 def find_library(libname):
 	"""
 	Search for 'libname.so'.
@@ -323,7 +323,8 @@ def find_library(libname):
 	"""
 	base_path = os.path.dirname(__file__)
 	lib, search_paths = None, []
-	so_extensions = [ ext for ext, _, typ in imp.get_suffixes()
+	# so_extensions = [ ext for ext, _, typ in imp.get_suffixes()
+	so_extensions = [ ext for ext, _, typ in importlib.machinery.SOURCE_SUFFIXES
 			if typ == imp.C_EXTENSION ]
 	for extension in so_extensions:
 		search_paths += [
@@ -342,7 +343,43 @@ def find_library(libname):
 		raise OSError('Cant find %s.so. searched at:\n %s' % (
 			libname, '\n'.join(search_paths)))
 	return ctypes.CDLL(lib)
+'''
 
+# I've never used imp, so I've been relying on GPT to help update it.
+# Making a note that this code could be bad.
+def find_library(libname):
+    """
+    Search for 'libname' with platform-specific shared library extensions.
+    Returns library loaded with ctypes.CDLL.
+    Raises OSError if library is not found.
+    """
+    base_path = os.path.dirname(__file__)
+    lib, search_paths = None, []
+
+    # Use EXTENSION_SUFFIXES for valid shared library extensions
+    so_extensions = importlib.machinery.EXTENSION_SUFFIXES
+
+    # Construct search paths with possible extensions
+    for extension in so_extensions:
+        search_paths += [
+            os.path.abspath(os.path.normpath(
+                os.path.join(base_path, '..', libname + extension))),
+            os.path.abspath(os.path.normpath(
+                os.path.join(base_path, '../..', libname + extension)))
+        ]
+
+    # Search for the library in the constructed paths
+    for path in search_paths:
+        if os.path.exists(path):
+            lib = path
+            break
+
+    # Raise an error if the library wasn't found
+    if not lib:
+        raise OSError(f"Can't find {libname} with valid extensions. Searched at:\n" +
+                      "\n".join(search_paths))
+
+    return ctypes.CDLL(lib)
 
 def find_gksudo():
 	"""

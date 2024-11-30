@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 udevmonitor.py - enumerates and monitors devices using (e)udev
@@ -327,10 +327,10 @@ if __name__ == "__main__":
 	udev = Eudev()
 	en = udev.enumerate().match_subsystem("hidraw")
 	for i in en:
-		print i
+		print(i)
 	
 	m = udev.monitor().match_subsystem("hidraw").start()
 	while True:
 		d = m.receive_device()
 		if d:
-			print os.major(d.devnum), os.minor(d.devnum), d
+			print(os.major(d.devnum), os.minor(d.devnum), d)

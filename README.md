@@ -42,11 +42,12 @@ Based on [Standalone Steam Controller Driver](https://github.com/ynsta/steamcont
   - [setuptools](https://pypi.python.org/pypi/setuptools)
   - [python-pylibacl](http://pylibacl.k1024.org/) is recommended
   - [python-evdev](https://python-evdev.readthedocs.io/en/latest/) is strongly recommended
+  - Have a Python venv setup
 
 ### Installing
   - Download and extract  [latest release](https://github.com/kozec/sc-controller/releases/latest)
-  - `python2 setup.py build`
-  - `python2 setup.py install`
+  - `python setup.py build`
+  - `python setup.py install`
 
 
 ## Running with non distro-specific package          

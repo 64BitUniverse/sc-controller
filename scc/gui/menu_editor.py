@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Menu Editor
 
@@ -430,7 +430,7 @@ class MenuEditor(Editor):
 				filename, trash = find_icon(self.selected_icon)
 				self.menu_icon.set_filename(filename)
 				self.menu_icon.set_visible(True)
-			except Exception, e:
+			except Exception as e:
 				log.error(e)
 				log.error(traceback.format_exc())
 				self.menu_icon.set_visible(False)

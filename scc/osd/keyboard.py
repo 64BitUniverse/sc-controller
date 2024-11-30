@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 SC-Controller - OSD Menu
@@ -110,7 +110,7 @@ class KeyboardImage(Gtk.DrawingArea):
 	def set_labels(self, labels):
 		for b in self.buttons:
 			label = labels.get(b)
-			if type(label) in (long, int):
+			if type(label) in (int, int):
 				pass
 			elif label:
 				b.label = label.encode("utf-8")
@@ -138,7 +138,7 @@ class KeyboardImage(Gtk.DrawingArea):
 		bpp = 4 if buf.get_has_alpha() else 3
 		w, h = buf.get_width(), buf.get_height()
 		stride = buf.get_rowstride()
-		for i in xrange(0, len(pixels), bpp):
+		for i in range(0, len(pixels), bpp):
 			if pixels[i + 3] > 64:
 				pixels[i + 0] = 255 - pixels[i + 0]
 				pixels[i + 1] = 255 - pixels[i + 1]
@@ -459,7 +459,7 @@ class Keyboard(OSDWindow, TimerManager):
 				else:
 					code = Gdk.keyval_to_unicode(translation[1])
 				if code >= 33:			 		# Printable chars, w/out space
-					labels[button] = unichr(code).strip()
+					labels[button] = str(code).strip()
 				else:
 					labels[button] = SPECIAL_KEYS.get(code)
 		self.background.set_labels(labels)

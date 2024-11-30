@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - App
 
@@ -293,11 +293,15 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 		# TODO: Maybe not best place to do this
 		try:
 			# Dynamic modules
-			rawlist = file("/proc/modules", "r").read().split("\n")
+			with open("/proc/modules", "r") as f:
+				rawlist = f.read().split("\n")
+			f.close
 			kernel_mods = [ line.split(" ")[0] for line in rawlist ]
 			# Built-in modules
 			release = platform.uname()[2]
-			rawlist = file("/lib/modules/%s/modules.builtin" % release, "r").read().split("\n")
+			with open("/lib/modules/%s/modules.builtin" % release, "r") as f:
+				rawlist = f.read().split("\n")
+			f.close
 			kernel_mods += [ os.path.split(x)[-1].split(".")[0] for x in rawlist ]
 		except Exception:
 			# Maybe running on BSD or Windows...
@@ -907,7 +911,7 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 				self.remove_switcher(s)
 		
 		# Assign controllers to widgets
-		for i in xrange(0, count):
+		for i in range(0, count):
 			c = self.dm.get_controllers()[i]
 			self.profile_switchers[i].set_controller(c)
 		
@@ -1143,11 +1147,11 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 				else:
 					self.hilights[App.OBSERVE_COLOR].remove(what)
 				self._update_background()
-			except KeyError, e:
+			except KeyError as e:
 				# Non fatal
 				pass
 		else:
-			print "event", what
+			print("event", what)
 	
 	
 	def on_profile_right_clicked(self, ps):
@@ -1235,7 +1239,7 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 				except:
 					# non-existing .mod file is expected
 					pass
-		except Exception, e:
+		except Exception as e:
 			log.error("Failed to rename %s: %s", old_fname, e)
 		
 		controllers = list(self.dm.get_controllers())
@@ -1277,7 +1281,7 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 					pass
 				for ps in self.profile_switchers:
 					ps.refresh_profile_path(name)
-			except Exception, e:
+			except Exception as e:
 				log.error("Failed to remove %s: %s", fname, e)
 		d.destroy()
 	
@@ -1548,7 +1552,7 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 					stream.read_bytes_async(102400, 0, None, stream_ready, buffer)
 				else:
 					self.on_got_release_notes(buffer.decode("utf-8"))
-			except Exception, e:
+			except Exception as e:
 				log.warning("Failed to read release notes")
 				log.exception(e)
 				return
@@ -1558,7 +1562,7 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 				stream = f.read_finish(task)
 				assert stream
 				stream.read_bytes_async(102400, 0, None, stream_ready, buffer)
-			except Exception, e:
+			except Exception as e:
 				log.warning("Failed to read release notes")
 				log.exception(e)
 				log.warning("(above error is not fatal and can be ignored)")
@@ -1694,7 +1698,7 @@ class App(Gtk.Application, UserDataManager, BindingEditor):
 					os.rename("%s/%s.convert" % (get_profiles_path(), name),
 							"%s/%s" % (get_profiles_path(), name))
 					log.warning("Converted %s (from v%s)", name, to_convert[name].original_version)
-				except Exception, e:
+				except Exception as e:
 					log.warning("Failed to convert %s: %s", name, e)
 
 

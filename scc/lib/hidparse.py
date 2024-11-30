@@ -17,6 +17,7 @@ from scc.lib.hidparse_data import ModifierI2a, HidSensorProperty
 from scc.lib.hidparse_data import ItemType, ItemLength, ItemBase
 from scc.lib.hidparse_data import SensorEvent, SensorDataField
 from scc.lib.hidparse_data import Collection, Unit, UnitType
+from scc.lib import hidparse_data
 from scc.lib import ioctl_opt
 from scc.lib import IntEnum
 import ctypes, fcntl, collections, struct
@@ -373,7 +374,7 @@ def make_parsers(data):
 	parsers = []
 	axis_id, buttons_id = 0, 0
 	for x in parse_report_descriptor(data, True):
-		# print x
+		# print(x)
 		if x[0] == GlobalItem.ReportSize:
 			size = x[1]
 		elif x[0] == GlobalItem.ReportCount:
@@ -385,7 +386,7 @@ def make_parsers(data):
 				pass
 			elif x[1] == ItemType.Data:
 				if kind in AXES:
-					for i in xrange(count):
+					for i in range(count):
 						parsers.append(HIDAxisParser(axis_id, offset + size * i, 1, size))
 						axis_id += 1
 				else:

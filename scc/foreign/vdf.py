@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 Imports VDF profile and converts it to Profile object.
 """
@@ -15,7 +15,7 @@ from scc.modifiers import HoldModifier, ModeModifier
 from scc.parser import ActionParser, ParseError
 from scc.menu_data import MenuData, MenuItem
 from scc.profile import Profile
-from scc.lib.vdf import parse_vdf, ensure_list
+from vdf import parse_vdf, ensure_list
 
 import logging
 log = logging.getLogger("import.vdf")
@@ -377,7 +377,7 @@ class VDFProfile(Profile):
 				action = MouseAction()
 		elif mode == "mouse_wheel":
 			action = BallModifier(XYAction(MouseAction(Rels.REL_HWHEEL),
-			 	ouseAction(Rels.REL_WHEEL)))
+			 	MouseAction(Rels.REL_WHEEL)))
 		elif mode == "trigger":
 			actions = []
 			if "click" in inputs:

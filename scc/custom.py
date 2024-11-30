@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Custom module loader
 
@@ -29,9 +29,15 @@ def load_custom_module(log, who_calls="daemon"):
 		log.warning("")
 		log.warning("Also try removing it if %s crashes "
 			"shortly after this message." % (who_calls,))
-		
-		import imp
-		imp.load_source("custom", filename)
+		# Changing imp in accordance with it being removed in Python 3.12
+		import importlib.util
+		import importlib.machinery
+		def load_source(custom, filename):
+			loader = importlib.machinery.SourceFileLoader(custom, filename)
+			spec = importlib.util.spec_from_file_location(custom, filename, loader=loader)
+			module = importlib.util.module_from_spec(spec)
+			loader.exec_module(module)
+			return module
 		log.warning("=" * 60)
 		return True
 	return False

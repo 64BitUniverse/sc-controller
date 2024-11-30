@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Controller Image
 
@@ -154,7 +154,7 @@ class ControllerImage(SVGWidget):
 		SVGEditor.update_parents(e)
 		target = SVGEditor.get_element(e, "controller")
 		target_x, target_y = SVGEditor.get_translation(target)
-		for i in xrange(len(ControllerImage.BUTTONS_WITH_IMAGES)):
+		for i in range(len(ControllerImage.BUTTONS_WITH_IMAGES)):
 			b = nameof(ControllerImage.BUTTONS_WITH_IMAGES[i])
 			if b == "DOTS":
 				# How did I managed to create this kind of special case? -_-
@@ -184,7 +184,7 @@ class ControllerImage(SVGWidget):
 					x - target_x, y - target_y, scale)
 				img.attrib["id"] = b
 				SVGEditor.add_element(target, img)
-			except Exception, err:
+			except Exception as err:
 				log.warning("Failed to add image for button %s (from %s)", b, path)
 				log.exception(err)
 		e.commit()

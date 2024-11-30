@@ -102,36 +102,40 @@ class JSONEncoder(object):
 	"""
 	item_separator = ', '
 	key_separator = ': '
+	
+	
 	def __init__(self, skipkeys=False, ensure_ascii=True,
 			check_circular=True, allow_nan=True, sort_keys=False,
 			indent=None, separators=None, encoding='utf-8', default=None):
-		"""Constructor for JSONEncoder, with sensible defaults.
-
+		"""
+	
+		Constructor for JSONEncoder, with sensible defaults.
+	
 		If skipkeys is false, then it is a TypeError to attempt
 		encoding of keys that are not str, int, long, float or None.  If
 		skipkeys is True, such items are simply skipped.
-
+	
 		If *ensure_ascii* is true (the default), all non-ASCII
 		characters in the output are escaped with \uXXXX sequences,
 		and the results are str instances consisting of ASCII
 		characters only.  If ensure_ascii is False, a result may be a
 		unicode instance.  This usually happens if the input contains
 		unicode strings or the *encoding* parameter is used.
-
+	
 		If check_circular is true, then lists, dicts, and custom encoded
 		objects will be checked for circular references during encoding to
 		prevent an infinite recursion (which would cause an OverflowError).
 		Otherwise, no such check takes place.
-
+	
 		If allow_nan is true, then NaN, Infinity, and -Infinity will be
 		encoded as such.  This behavior is not JSON specification compliant,
 		but is consistent with most JavaScript based encoders and decoders.
 		Otherwise, it will be a ValueError to encode such floats.
-
+	
 		If sort_keys is true, then the output of dictionaries will be
 		sorted by key; this is useful for regression tests to ensure
 		that JSON serializations can be compared on a day-to-day basis.
-
+	
 		If indent is a non-negative integer, then JSON array
 		elements and object members will be pretty-printed with that
 		indent level.  An indent level of 0 will only insert newlines.
@@ -139,21 +143,20 @@ class JSONEncoder(object):
 		item separator is ', ',  the output might include trailing
 		whitespace when indent is specified.  You can use
 		separators=(',', ': ') to avoid this.
-
+	
 		If specified, separators should be a (item_separator, key_separator)
 		tuple.  The default is (', ', ': ').  To get the most compact JSON
 		representation you should specify (',', ':') to eliminate whitespace.
-
+	
 		If specified, default is a function that gets called for objects
 		that can't otherwise be serialized.  It should return a JSON encodable
 		version of the object or raise a ``TypeError``.
-
+	
 		If encoding is not None, then all input strings will be
 		transformed into unicode using that encoding prior to JSON-encoding.
 		The default is UTF-8.
-
+	
 		"""
-
 		self.skipkeys = skipkeys
 		self.ensure_ascii = ensure_ascii
 		self.check_circular = check_circular
@@ -195,7 +198,7 @@ class JSONEncoder(object):
 
 		"""
 		# This is for extremely simple cases and benchmarks.
-		if isinstance(o, basestring):
+		if isinstance(o, str):
 			if isinstance(o, str):
 				_encoding = self.encoding
 				if (_encoding is not None
@@ -277,14 +280,14 @@ def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,
 		_key_separator, _item_separator, _sort_keys, _skipkeys, _one_shot,
 		## HACK: hand-optimized bytecode; turn globals into locals
 		ValueError=ValueError,
-		basestring=basestring,
+		basestring=str,
 		dict=dict,
 		float=float,
 		id=id,
 		int=int,
 		isinstance=isinstance,
 		list=list,
-		long=long,
+		long=int,
 		str=str,
 		tuple=tuple,
 	):

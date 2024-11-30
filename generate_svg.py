@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 from scc.tools import _
 
 from scc.actions import Action, DPadAction, XYAction, MouseAction
@@ -240,7 +240,9 @@ class Generator(object):
 	PADDING = 10
 	
 	def __init__(self):
-		svg = SVGEditor(file("images/binding-display.svg").read())
+		with open("images/binding-display.svg") as f:
+			svg = SVGEditor(f.read())
+		f.close
 		background = SVGEditor.get_element(svg, "background")
 		self.label_template = SVGEditor.get_element(svg, "label_template")
 		self.line_height = int(float(self.label_template.attrib.get("height") or 8))
@@ -313,9 +315,9 @@ class Generator(object):
 			b.place_marker(self, root)
 		for b in boxes:
 			b.place(self, root)
-		
-		file("out.svg", "w").write(svg.to_string())
-	
+		with open("out.svg", "w") as f:
+			f.write(svg.to_string())
+		f.close
 	
 	
 	def equal_width(self, *boxes):

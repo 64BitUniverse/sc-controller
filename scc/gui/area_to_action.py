@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - AREA_TO_ACTION
 
@@ -114,7 +114,7 @@ def action_to_area(action):
 		if len(pars) > len(action.parameters):
 			continue
 		differs = False
-		for i in xrange(0, len(pars)):
+		for i in range(0, len(pars)):
 			if pars[i] != action.parameters[i]:
 				differs = True
 				break

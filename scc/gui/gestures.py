@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Gesture-related GUI stuff.
 """
@@ -49,7 +49,7 @@ class GestureDraw(Gtk.DrawingArea):
 	
 	def draw(self, another_self, cr):
 		resolution = self._detector.get_resolution()
-		# hilights = [ [0] * resolution for x in xrange(0, resolution) ]
+		# hilights = [ [0] * resolution for x in range(0, resolution) ]
 
 		# Background
 		Gdk.cairo_set_source_rgba(cr, self.colors['background'])
@@ -76,7 +76,7 @@ class GestureDraw(Gtk.DrawingArea):
 		
 		# Grid
 		Gdk.cairo_set_source_rgba(cr, self.colors['grid'])
-		for i in xrange(1, resolution):
+		for i in range(1, resolution):
 			cr.move_to(i * box_width, self.GRID_PAD)
 			cr.line_to(i * box_width, self._size - self.GRID_PAD)
 			cr.stroke()

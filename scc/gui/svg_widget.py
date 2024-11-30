@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Background
 
@@ -165,7 +165,7 @@ class SVGWidget(Gtk.EventBox):
 		Returns x, y, width and height of rect element relative to document root.
 		element can be specified by it's id.
 		"""
-		if type(element) in (str, unicode):
+		if type(element) in str:
 			tree = ET.fromstring(self.current_svg.encode("utf-8"))
 			SVGEditor.update_parents(tree)
 			element = SVGEditor.get_element(tree, element)
@@ -272,7 +272,7 @@ class SVGEditor(object):
 		if type(svgw) == str:
 			self._svgw = None
 			self._tree = ET.fromstring(svgw)
-		elif type(svgw) == unicode:
+		elif type(svgw) == str:
 			self._svgw = None
 			self._tree = ET.fromstring(svgw.encode("utf-8"))
 		else:
@@ -335,7 +335,7 @@ class SVGEditor(object):
 		Returns self.
 		"""
 		
-		if type(e) in (str, unicode):
+		if type(e) in str:
 			e = SVGEditor.get_element(self, e)
 		if e is not None:
 			e.parent.remove(e)

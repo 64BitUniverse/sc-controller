@@ -9,7 +9,7 @@ Callback will be called with following arguments:
 	callback(device, handle)
 Callback has to return created USBDevice instance or None.
 """
-from scc.lib import usb1
+import libusb1
 
 import time, traceback, logging
 log = logging.getLogger("USB")
@@ -32,14 +32,14 @@ class USBDevice(object):
 		callback(endpoint, data) is called repeadedly with every packed recieved.
 		"""
 		def callback_wrapper(transfer):
-			if (transfer.getStatus() != usb1.TRANSFER_COMPLETED or
+			if (transfer.getStatus() != libusb1.TRANSFER_COMPLETED or
 				transfer.getActualLength() != size):
 				return
 			
 			data = transfer.getBuffer()
 			try:
 				callback(endpoint, data)
-			except Exception, e:
+			except Exception as e:
 				log.error("Failed to handle recieved data")
 				log.error(e)
 				log.error(traceback.format_exc())
@@ -48,7 +48,7 @@ class USBDevice(object):
 		
 		transfer = self.handle.getTransfer()
 		transfer.setInterrupt(
-			usb1.ENDPOINT_IN | endpoint,
+			libusb1.ENDPOINT_IN | endpoint,
 			size,
 			callback=callback_wrapper,
 		)
@@ -161,7 +161,7 @@ class USBDevice(object):
 			try:
 				self.handle.releaseInterface(number)
 				self.handle.attachKernelDriver(number)
-			except usb1.USBErrorNoDevice:
+			except libusb1.USBErrorNoDevice:
 				# Safe to ignore, happens when USB is removed
 				pass
 		self._claimed = []
@@ -206,7 +206,7 @@ class USBDriver(object):
 	
 	
 	def start(self):
-		self._ctx = usb1.USBContext()
+		self._ctx = libusb1.USBContext()
 		
 		def fd_cb(*a):
 			self._changed += 1
@@ -234,7 +234,7 @@ class USBDriver(object):
 				try:
 					handle = device.open()
 					break
-				except usb1.USBError, e:
+				except libusb1.USBError as e:
 					log.error("Failed to open USB device %.4x:%.4x : %s", tp[0], tp[1], e)
 					if tp in self._fail_cbs:
 						self._fail_cbs[tp](syspath, *tp)
@@ -252,7 +252,7 @@ class USBDriver(object):
 		handled_device = None
 		try:
 			handled_device = callback(device, handle)
-		except usb1.USBErrorBusy, e:
+		except libusb1.USBErrorBusy as e:
 			log.error("Failed to claim USB device %.4x:%.4x : %s", tp[0], tp[1], e)
 			if tp in self._fail_cbs:
 				device.close()
@@ -288,7 +288,7 @@ class USBDriver(object):
 			handled_device.close()
 			try:
 				device.close()
-			except usb1.USBErrorNoDevice:
+			except libusb1.USBErrorNoDevice:
 				# Safe to ignore, happens when device is physiucally removed
 				pass
 	
@@ -319,7 +319,7 @@ class USBDriver(object):
 		for d in self._devices.values():		# TODO: don't use .values() here
 			try:
 				d.flush()
-			except usb1.USBErrorPipe:
+			except libusb1.USBErrorPipe:
 				log.error("USB device %s disconnected durring flush", d)
 				d.close()
 				break

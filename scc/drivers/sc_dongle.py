@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC Controller - Steam Controller Wireless Receiver (aka Dongle) Driver
 
@@ -74,7 +74,7 @@ class Dongle(USBDevice):
 		self.claim_by(klass=3, subclass=0, protocol=0)
 		self._controllers = {}
 		self._no_serial = []
-		for i in xrange(0, Dongle.MAX_ENDPOINTS):
+		for i in range(0, Dongle.MAX_ENDPOINTS):
 			# Steam dongle apparently can do only 4 controllers at once
 			self.set_input_interrupt(FIRST_ENDPOINT + i, 64, self._on_input)
 	

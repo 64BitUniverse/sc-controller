@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 # The MIT License (MIT)
 #
@@ -25,7 +25,7 @@
 import os, ctypes, time
 from ctypes import Structure, POINTER, c_bool, c_int16, c_uint16, c_int32, byref
 from math import pi, copysign, sqrt
-from scc.lib.libusb1 import timeval
+from libusb1 import timeval
 from scc.tools import find_library
 from scc.cheader import defines
 from scc.lib import IntEnum
@@ -221,7 +221,7 @@ class UInput(object):
 		self._ff_events = None
 		if rumble:
 			self._ff_events = (POINTER(FeedbackEvent) * MAX_FEEDBACK_EFFECTS)()
-			for i in xrange(MAX_FEEDBACK_EFFECTS):
+			for i in range(MAX_FEEDBACK_EFFECTS):
 				self._ff_events[i].contents = FeedbackEvent()
 		
 		try:

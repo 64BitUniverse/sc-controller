@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # Used to generate some icons
 # Requires inkscape and imagemagick pacages
 
@@ -21,7 +21,7 @@ RECOLORS = {							# Defines set of hue shifts for controller-icons
 # Generate svg state icons
 for size in (24, 256):
 	for state in ('alive', 'dead', 'error', 'unknown'):
-		print "scc-statusicon-%s.png" % (state,)
+		print("scc-statusicon-%s.png" % (state,))
 		subprocess.call([
 			"inkscape",
 			"%s/scc-statusicon-%s.svg" % (ICODIR, state),
@@ -40,7 +40,7 @@ def html_to_rgb(html):
 		return 0, 0, 0, 0
 	elif len(html) != 8:
 		raise ValueError("Needs RRGGBB(AA) format, got '%s'" % (html, ))
-	return tuple(( float(int(html[i:i+2],16)) / 255.0 for i in xrange(0, len(html), 2) ))
+	return tuple(( float(int(html[i:i+2],16)) / 255.0 for i in range(0, len(html), 2) ))
 
 
 def rgb_to_html(r,g,b):
@@ -80,7 +80,9 @@ def recolor(tree, add):
 ET.register_namespace("","http://www.w3.org/2000/svg")
 for tp in ("sc", "scbt", "fake", "ds4", "hid", "rpad"):
 	# Read svg and parse it
-	data = file("%s/%s-0.svg" % (CICONS, tp), "r").read()
+	with open("%s/%s-0.svg" % (CICONS, tp), "r") as f:
+		data = f.read()
+	f.close
 	# Create recolored images
 	for key in RECOLORS:
 		tree = ET.fromstring(data)
@@ -88,5 +90,7 @@ for tp in ("sc", "scbt", "fake", "ds4", "hid", "rpad"):
 		recolor(tree, RECOLORS[key])
 		
 		out = "%s/%s-%s.svg" % (CICONS, tp, key)
-		file(out, "w").write(ET.tostring(tree))
-		print out
+		with open(out, "w") as f:
+			f.write(ET.tostring(tree))
+		f.close
+		print(out)

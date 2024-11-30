@@ -191,7 +191,7 @@ class TestCompress(object):
 		"""
 		for case in CASES:
 			if 'sensitivity' in CASES[case]:
-				print "Testing 'sensitivity' on %s" % (case,)
+				print("Testing 'sensitivity' on %s" % (case,))
 				a = parser.from_json_data(CASES[case]).compress()
 				assert (
 					a.get_speed() == CASES[case]['sensitivity']
@@ -207,7 +207,7 @@ class TestCompress(object):
 		"""
 		for case in CASES:
 			if 'feedback' in CASES[case]:
-				print "Testing 'feedback' on %s" % (case,)
+				print("Testing 'feedback' on %s" % (case,))
 				a = parser.from_json_data(CASES[case]).compress()
 				assert a.get_haptic().get_position().name == CASES[case]['feedback'][0]
 	

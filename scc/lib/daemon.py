@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 """Generic linux daemon base class"""
 
@@ -88,7 +88,9 @@ class Daemon(object):
 			# Check if PID coresponds to running daemon process and fail if yes
 			try:
 				assert os.path.exists("/proc")	# Just in case of BSD...
-				cmdline = file("/proc/%s/cmdline" % (pid,), "r").read().replace("\x00", " ").strip()
+				with open("/proc/%s/cmdline" % (pid,), "r") as f:
+					cmdline = f.read().replace("\x00", " ").strip()
+				f.close
 				if sys.argv[0] in cmdline:
 					raise Exception("already running")
 			except IOError:
@@ -134,10 +136,10 @@ class Daemon(object):
 
 		# Try killing the daemon process
 		try:
-			for x in xrange(0, 10): # Waits max 1s
+			for x in range(0, 10): # Waits max 1s
 				os.kill(pid, signal.SIGTERM)
 				if once: break
-				for x in xrange(50):
+				for x in range(50):
 					os.kill(pid, 0)
 					time.sleep(0.1)
 				time.sleep(0.1)

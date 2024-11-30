@@ -1,10 +1,10 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Profile
 
 Handles mapping profile stored in json file
 """
-from __future__ import unicode_literals
+#from __future__ import unicode_literals
 
 from scc.constants import LEFT, RIGHT, CPAD, DPAD, WHOLE, STICK, RSTICK, GYRO
 from scc.constants import SCButtons, HapticPos
@@ -50,7 +50,9 @@ class Profile(object):
 	
 	def save(self, filename):
 		""" Saves profile into file. Returns self """
-		fileobj = file(filename, "w")
+		with open(filename, "w") as f:
+			fileobj = f.read()
+		f.close
 		self.save_fileobj(fileobj)
 		fileobj.close()
 		return self

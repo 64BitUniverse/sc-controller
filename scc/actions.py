@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC Controller - Actions
 
@@ -6,7 +6,7 @@ Action describes what should be done when event from physical controller button,
 stick, pad or trigger is generated - typicaly what emulated button, stick or
 trigger should be pressed.
 """
-from __future__ import unicode_literals
+#from __future__ import unicode_literals
 from scc.tools import _
 
 from scc.tools import ensure_size, quat2euler, anglediff
@@ -383,7 +383,7 @@ class Action(object):
 		""" Encodes one parameter. Used by encode_parameters """
 		if parameter in PARSER_CONSTANTS:
 			return parameter
-		if type(parameter) in (str, unicode):
+		if type(parameter) in str:
 			return "'%s'" % (str(parameter).encode('string_escape'),)
 		return nameof(parameter)
 	
@@ -1388,7 +1388,7 @@ class TiltAction(MultichildAction):
 				if pyr[j] < TiltAction.MIN * -1 / self.speed[j]:
 					# Side faces down
 					if not self.states[i]:
-						# print self.actions[i]
+						# print(self.actions[i])
 						self.actions[i].button_press(mapper)
 						self.states[i] = True
 				elif self.states[i]:
@@ -1920,7 +1920,7 @@ class DPadAction(MultichildAction, HapticEnabledAction):
 		self.ranges = []
 		normal_range = 90 - self.diagonal_rage
 		i = 360-normal_range / 2
-		for x in xrange(0, 9):
+		for x in range(0, 9):
 			r = normal_range if x % 2 == 0 else self.diagonal_rage
 			i, j = (i + r) % 360, i
 			self.ranges.append(( j, i, x % 8 ))

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SCC - Steam Deck Driver
 
@@ -11,7 +11,7 @@ to not do so periodically.
 """
 
 from scc.lib import IntEnum
-from scc.lib.usb1 import USBError
+from libusb1 import USBError
 from scc.drivers.usb import USBDevice, register_hotplug_device
 from scc.constants import STICK_PAD_MIN, STICK_PAD_MAX
 from scc.constants import SCButtons, ControllerFlags

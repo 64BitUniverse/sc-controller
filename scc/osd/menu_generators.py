@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - OSD Menu Generators
 
@@ -112,7 +112,7 @@ class WindowListMenuGenerator(MenuGenerator):
 			display = Gdk.Display.get_default()
 			window = GdkX11.X11Window.foreign_new_for_display(display, xid)
 			window.focus(0)
-		except Exception, e:
+		except Exception as e:
 			log.error("Failed to activate window")
 			log.error(traceback.format_exc())
 		menu.quit(-2)

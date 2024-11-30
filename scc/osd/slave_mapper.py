@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Slave Mapper
 
@@ -84,8 +84,8 @@ class SlaveMapper(Mapper):
 				elif what == "RPADTOUCH":
 					self.profile.pads[RIGHT].whole(self, 0, 0, RIGHT)
 		elif what in (LEFT, RIGHT, CPAD, DPAD):
-			# print what, self.profile.pads[what]
+			# print(what, self.profile.pads[what])
 			self.profile.pads[what].whole(self, data[0], data[1], what)
 		else:
-			print ">>>", what, data
+			print(">>>", what, data)
 		self.generate_events()

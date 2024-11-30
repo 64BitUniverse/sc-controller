@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Global Settings
 
@@ -10,11 +10,11 @@ from scc.tools import _
 from gi.repository import Gdk, GObject, GLib
 from scc.gui.editor import Editor, ComboSetter
 from scc.tools import get_profiles_path
-from scc.foreign.vdf import VDFProfile
+from vdf import VDFProfile
 from scc.foreign.vdffz import VDFFZProfile
-from scc.lib.vdf import parse_vdf
+from vdf import parse_vdf
 
-from cStringIO import StringIO
+from io import StringIO
 
 import re, sys, os, collections, threading, logging
 log = logging.getLogger("IE.ImportVdf")
@@ -61,7 +61,7 @@ class ImportVdf(object):
 					log.debug("Loading sharedconfig from '%s'", sharedconfig)
 					try:
 						i = self._parse_profile_list(i, sharedconfig)
-					except Exception, e:
+					except Exception as e:
 						log.exception(e)
 					self._lock.release()
 		
@@ -123,7 +123,7 @@ class ImportVdf(object):
 					try:
 						data = parse_vdf(open(filename, "r"))
 						name = data['appstate']['name']
-					except Exception, e:
+					except Exception as e:
 						log.error("Failed to load app manifest for '%s'", gameid)
 						log.exception(e)
 				else:
@@ -180,7 +180,7 @@ class ImportVdf(object):
 					name = data['controller_mappings']['title']
 					GLib.idle_add(self._set_profile_name, index, name, filename)
 					break
-				except Exception, e:
+				except Exception as e:
 					log.error("Failed to read profile name from '%s'", filename)
 					log.exception(e)
 			else:
@@ -313,7 +313,7 @@ class ImportVdf(object):
 		dump.write("\nProfile dump:\n")
 		try:
 			dump.write(open(filename, "r").read())
-		except Exception, e:
+		except Exception as e:
 			dump.write("(failed to write: %s)" % (e,))
 		tvError.get_buffer().set_text(dump.getvalue())
 		swError.set_visible(True)
@@ -355,7 +355,7 @@ class ImportVdf(object):
 		
 		try:
 			self._profile.load(filename)
-		except Exception, e:
+		except Exception as e:
 			log.exception(e)
 			lblName.set_visible(False)
 			txName.set_visible(False)
@@ -377,7 +377,7 @@ class ImportVdf(object):
 			error_log.write("\nProfile dump:\n")
 			try:
 				error_log.write(open(filename, "r").read())
-			except Exception, e:
+			except Exception as e:
 				error_log.write("(failed to write: %s)" % (e,))
 			
 			tvError.get_buffer().set_text(error_log.getvalue())

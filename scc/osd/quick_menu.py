@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Quick OSD Menu
 
@@ -116,7 +116,7 @@ class QuickMenu(Menu):
 			if config and config["gui"] and config["gui"]["buttons"]:
 				buttons = config["gui"]["buttons"]
 				try:
-					for i in xrange(len(self._icons)):
+					for i in range(len(self._icons)):
 						icon = self._icons[i]
 						name = buttons[self.BUTTON_INDEXES[i]]
 						filename, trash = find_icon("buttons/%s" % name)
@@ -130,10 +130,10 @@ class QuickMenu(Menu):
 	
 	def parse_argumets(self, argv):
 		if not OSDWindow.parse_argumets(self, argv):
-			print "failed to parse args"
+			print("failed to parse args")
 			return False
 		if not self.parse_menu():
-			print "failed to parse menu"
+			print("failed to parse menu")
 			return False
 		if not self.config:
 			self.config = Config()
@@ -279,5 +279,5 @@ if __name__ == "__main__":
 		sys.exit(1)
 	m.run()
 	if m.get_exit_code() == 0:
-		print m.get_selected_item_id()
+		print(m.get_selected_item_id())
 	sys.exit(m.get_exit_code())

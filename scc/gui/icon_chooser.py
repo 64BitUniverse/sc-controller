@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Icon Chooser
 """
@@ -151,7 +151,7 @@ class IconChooser(Editor, UserDataManager):
 				pb = None
 				try:
 					pb = GdkPixbuf.Pixbuf.new_from_file(f.get_path())
-				except Exception, e:
+				except Exception as e:
 					log.error(e)
 					log.error(traceback.format_exc())
 					continue
@@ -173,10 +173,11 @@ class IconChooser(Editor, UserDataManager):
 		licensefile = os.path.join(path, "LICENCES")
 		if not os.path.exists(licensefile):
 			return None
-		for line in file(licensefile, "r").readlines():
-			if line.startswith(name):
-				if "-" in line:
-					return line.split("-")[-1].strip("\t\r\n ")
+		with open(licensefile, "r") as f:
+			for line in f.readlines():
+				if line.startswith(name):
+					if "-" in line:
+						return line.split("-")[-1].strip("\t\r\n ")
 		return None
 
 

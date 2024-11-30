@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC Controller - Modifiers
 
@@ -6,7 +6,7 @@ Modifier is Action that just sits between input and actual action, changing
 way how resulting action works.
 For example, click() modifier executes action only if pad is pressed.
 """
-from __future__ import unicode_literals
+#from __future__ import unicode_literals
 
 from scc.actions import Action, MouseAction, XYAction, AxisAction, RangeOP
 from scc.actions import NoAction, WholeHapticAction, HapticEnabledAction
@@ -541,7 +541,7 @@ class BallModifier(Modifier, WholeHapticAction):
 	
 	def change(self, mapper, dx, dy, what):
 		if what in (None, STICK) or (mapper.controller_flags() & ControllerFlags.HAS_RSTICK and what == RIGHT):
-			return self.action.change(mapper, x, y, what)
+			return self.action.change(mapper, dx, dy, what)
 		if mapper.is_touched(what):
 			if mapper.was_touched(what):
 				t = time.time()
@@ -612,7 +612,7 @@ class DeadzoneModifier(Modifier):
 	
 	def _mod_init(self, *params):
 		if len(params) < 1: raise TypeError("Not enough parameters")
-		if type(params[0]) in (str, unicode):
+		if type(params[0]) in str:
 			self.mode = params[0]
 			if hasattr(self, "mode_" + self.mode):
 				self._convert = getattr(self, "mode_" + self.mode)
@@ -923,7 +923,7 @@ class ModeModifier(Modifier):
 			for check in self.mods:
 				a_str = NameModifier.unstrip(self.mods[check]).to_string(True).split("\n")
 				a_str[0] = (" " * pad) + "  " + (nameof(check) + ",").ljust(11) + a_str[0]	# Key has to be one of SCButtons
-				for i in xrange(1, len(a_str)):
+				for i in range(1, len(a_str)):
 					a_str[i] = (" " * pad) + "  " + a_str[i]
 				a_str[-1] = a_str[-1] + ","
 				rv += a_str
@@ -1485,7 +1485,7 @@ class SmoothModifier(Modifier):
 		self.filter = filter
 		self._deq_x = deque([ 0.0 ] * level, maxlen=level)
 		self._deq_y = deque([ 0.0 ] * level, maxlen=level)
-		self._range = list(xrange(level))
+		self._range = list(range(level))
 		self._weights = [ multiplier ** x for x in reversed(self._range) ]
 		self._w_sum = sum(self._weights)
 		self._last_pos = None

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC-Controller - Grid OSD Menu
 
@@ -198,7 +198,7 @@ def main():
 		sys.exit(1)
 	gd.run()
 	if gd.get_exit_code() == 0:
-		print gd.get_gesture()
+		print(gd.get_gesture())
 	else:
 		sys.exit(gd.get_exit_code())
 

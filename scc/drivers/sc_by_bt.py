@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 SC Controller - Steam Controller Driver
 
@@ -104,7 +104,7 @@ class Driver:
 		try:
 			dev = HIDRaw(open(os.path.join("/dev/", hidrawname), "w+b"))
 			return SCByBt(self, syspath, dev)
-		except Exception, e:
+		except Exception as e:
 			log.exception(e)
 			return None
 
@@ -302,7 +302,7 @@ def hidraw_test(filename):
 	
 	class TestSC(SCByBt):
 		def input(self, tup):
-			print tup
+			print(tup)
 	
 	dev = HIDRaw(open(filename, "w+b"))
 	driver = Driver(FakeDaemon(), {})
@@ -311,7 +311,7 @@ def hidraw_test(filename):
 	c.flush()
 	while True:
 		c._input()
-		print { x[0]: getattr(c._state, x[0]) for x in c._state._fields_ }
+		print({ x[0]: getattr(c._state, x[0]) for x in c._state._fields_ })
 
 _drv = None
 
