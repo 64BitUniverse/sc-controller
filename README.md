@@ -46,8 +46,8 @@ Based on [Standalone Steam Controller Driver](https://github.com/ynsta/steamcont
 
 ### Installing
   - Download and extract  [latest release](https://github.com/kozec/sc-controller/releases/latest)
-  - `python setup.py build`
-  - `python setup.py install`
+  - `python -m build`
+  - `python -m pip install`
 
 
 ## Running with non distro-specific package          
