@@ -24,11 +24,12 @@ class AboutDialog(Editor):
 		# Get app version
 		app_ver = "(unknown version)"
 		try:
-			import pkg_resources, scc
-			if scc.__file__.startswith(pkg_resources.require("sccontroller")[0].location):
-				app_ver = "v" + pkg_resources.require("sccontroller")[0].version
+			import importlib.resources as resources
+			import scc
+			if scc.__file__.startswith(resources.require("sccontroller")[0].location):
+				app_ver = "v" + resources.require("sccontroller")[0].version
 		except:
-			# pkg_resources is not available or __version__ file missing
+			# importlib.resources is not available or __version__ file missing
 			# There is no reason to crash on this.
 			pass
 		# Display version in UI

@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+src/sccontroller.egg-info/PKG-INFO
+src/sccontroller.egg-info/SOURCES.txt
+src/sccontroller.egg-info/dependency_links.txt
+src/sccontroller.egg-info/requires.txt
+src/sccontroller.egg-info/top_level.txt

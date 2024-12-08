@@ -1,6 +1,0 @@
-libcemuhook
-libhiddrv
-libremotepad
-libsc_by_bt
-libuinput
-scc

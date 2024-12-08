@@ -3,12 +3,28 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sc-controller"
+name = "sccontroller"
+authors = [
+    {name = "kozec"}
+]
+description = "User-mode driver, mapper and GTK3 based GUI for Steam Controller, DS4 and similar controllers."
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["Controller", "Controllers", "Steam", "Steam Controller", "Mapper", "Keybinds"]
+license = { file = "GPL-2.0" }
 version = "0.0.1"
+classifiers = [
+    "Programming Language :: Python :: 3"
+]
 dependencies = [
-    "requests",
-    'importlib-metadata; python_version>"3.10"',
+    "pytest==8.3.3",
+    "setuptools==75.6.0",
+    "shiboken6==6.8.0.2",
+    "vdf==3.4",
+    "XInput-Python==0.4.0"
 ]
 
-[tool.setuptools.packages]
-find = {}  # Scan the project directory with the default parameters
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["drivers", "foreign", "gui", "lib", "osd", "x11"]
+exclude= ["tests"]
